@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id=canvas></canvas>
+    <script>
+        var canvas = document.getElementById("canvas");
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        let painting = false
+        let lastX;
+        let lastY;
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "rgb(200,0,0)";
+        var is_touch_device = 'ontouchstart' in document.documentElement;
+        if (is_touch_device) {
+            canvas.ontouchstart = (e) => {
+                ctx.moveTo(e.touches[0].pageX, e.touches[0].pageY);
+
+            }
+
+            canvas.ontouchmove = (e) => {
+
+                // ctx.beginPath();
+                // ctx.arc(e.touches[0].pageX, e.touches[0].pageY, 6, 0, 360);
+                // ctx.fill();
+                ctx.lineWidth = 6;
+                ctx.lineCap = 'round'
+
+                ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
+                ctx.stroke();
+
+            }
+
+        } else {
+            canvas.onmousedown = (e) => {
+                painting = true;
+                ctx.moveTo(e.pageX, e.pageY);
+            }
+            canvas.onmouseup = (e) => {
+                painting = false;
+            }
+
+            if (canvas.getContext) {
+
+
+
+                canvas.onmousemove = (e) => {
+                    if (painting === true) {
+                        //ctx.fillRect(e.pageX - 3, e.pageY - 3, 6, 6);
+                        // ctx.beginPath();
+                        // ctx.arc(e.pageX, e.pageY, 6, 0, 360);
+                        // ctx.fill();
+                        ctx.lineWidth = 6;
+                        ctx.lineCap = 'round'
+                        //ctx.linejoin = 'round';
+                        ctx.lineTo(e.pageX, e.pageY);
+                        ctx.stroke();
+
+                    }
+                }
+
+            }
+
+        }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
